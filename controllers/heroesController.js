@@ -1,9 +1,10 @@
 const fs = require('fs');
 const express = require('express');
+const router = express.Router();
+
 
 const heroes = JSON.parse(fs.readFileSync(__dirname + '/heroes.json', 'utf-8'));
 
-console.log(__dirname);
 
 let controlador = {
     todosLosHeroes: function (req, res){
@@ -13,7 +14,7 @@ let controlador = {
         heroes.forEach(elemento => respuesta += "\n" + elemento.id + "\n" + elemento.nombre + "\n" + elemento.profesion + "\n" + elemento.pais + "\n" + elemento.resenia);
 
 
-        res.send(respuesta);
+        res.end(respuesta);
     },
 
     heroeDetalle: function (req, res){
@@ -21,7 +22,7 @@ let controlador = {
         if(req.params.id > heroes.length){
            
             let respuesta= 'id inexistente';
-            res.send(respuesta);
+            res.end(respuesta);
         
         } else {
            
@@ -29,14 +30,27 @@ let controlador = {
                 return elemento.id == req.params.id;
             });
     
-            res.send('Mi nombres es ' + devolverHeroe[0].nombre + 'y soy ' + devolverHeroe[0].profesion);
+            res.end('Mi nombres es ' + devolverHeroe[0].nombre + 'y soy ' + devolverHeroe[0].profesion);
           
         }
 
-    }, 
+    },
 
+    detalleConBio: function (req, res){
 
+        if(req.params.id > heroes.length){
+            
+            res.end('No encontramos un héroe para mostrarte su biografía.');
+        
+        } if(req.params.ok!= 'ok'){
+            
+            res.end(heroes[req.params.id].nombre + ' lamenta que no quieras sabes mas : (');
+        
+        }
+        
+        res.end (heroes[req.params.id].nombre +"\n" + heroes[req.params.id].resenia);
 
+    },
 
 };
 

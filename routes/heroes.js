@@ -8,6 +8,6 @@ router.get('/', heroesControlador.todosLosHeroes);
 
 router.get('/detalle/:id', heroesControlador.heroeDetalle);
 
-/*router.get('/heroes/bio/:id/ok?', heroesControlador.heroeBiografia);
-*/
+router.get('/bio/:id/:ok?', heroesControlador.detalleConBio);
+
 module.exports = router;
